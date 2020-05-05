@@ -105,4 +105,4 @@ And the ```postmain()``` function, located at the address we extracted from the 
 * [x86_64 GCC Calling convention](https://wiki.osdev.org/Calling_Conventions)
 * [GCC Function attributes](https://gcc.gnu.org/onlinedocs/gcc-4.7.0/gcc/Function-Attributes.html)
 * [The .init and .fini Sections](http://ftp.math.utah.edu/u/ma/hohn/linux/misc/elf/node3.html)
-* [Abusing .CTORS and .DTORS for fun 'n profit](https://www.exploit-db.com/papers/13234)https://www.exploit-db.com/papers/13234
+* [Abusing .CTORS and .DTORS for fun 'n profit](https://www.exploit-db.com/papers/13234)
