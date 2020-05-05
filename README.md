@@ -57,8 +57,8 @@ int main(int argc, char **argv) {
 Compile and test the code:
 
 ```bash
-root@kali:~# gcc -Wall code.c 
-root@kali:~# ./a.out 
+# gcc -Wall code.c 
+# ./a.out 
 [*] In premain()
 [*] In main()
 [*] In postmain()
