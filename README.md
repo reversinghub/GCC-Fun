@@ -34,7 +34,7 @@ Constructors and destructors are created using the ```constructor (priority)``` 
 
 Example:
 
-```
+```c
 #include <stdio.h>
   
 int __attribute__ ((constructor)) premain() {
@@ -52,11 +52,48 @@ int main(int argc, char **argv) {
     return 0;
 }
 ```
+
 #### How to detect constructors/destructors
-* How to view .ctors/.dtors, .fini/.init array?
-* id pro example
-* GDB example
-* Other places?
+
+Constructors and destructors are placed in the ```.init_array``` and ```.fini_array``` sections:
+
+```bash
+# objdump -t a.out  | grep ".init_array$"
+0000000000003dd8 l    d  .init_array    0000000000000000              .init_array
+
+# objdump -t a.out  | grep ".fini_array$"
+0000000000003de8 l    d  .fini_array    0000000000000000              .fini_array
+```
+
+These sections are arrays of functions that get executed during the initialisation and termination phases. To figure out what functions are in those arrays, a quick solution is to use ```readelf``` and do a hexdump of those sections:
+
+```bash
+# readelf --hex-dump=.init_array a.out 
+Hex dump of section '.init_array':
+  0x00003dd8 30110000 00000000 35110000 00000000 0.......5.......
+
+# readelf --hex-dump=.fini_array a.out 
+Hex dump of section '.fini_array':
+  0x00003de8 f0100000 00000000 4c110000 00000000 ........L.......
+```
+
+The ELF file analysed here is a 64-bit application:
+
+```bash
+# file a.out 
+a.out: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=671aae3f8892a9864d08ea9fa7af1af5ebe6503b, for GNU/Linux 3.2.0, not stripped
+```
+
+That means those two arrays contain two functions each: the first one is the default one and the second one is the one we added manually. The address of the additional constructor - the ```premain()``` function, is ```0x0000000000001153```. The address of the additional destructor - the ```postmain()``` function, is ```0x000000000000114c```.
+
+We can easily verify this in IDA Pro. Here's the ```.fini_array``` section:
+
+![.fini_array](img/fini.png)
+
+And the ```postmain()``` function, located at the address we extracted from the ```readelf``` hexdump:
+
+![postmain](img/postmain.png)
+
 
 ### References
 
