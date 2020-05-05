@@ -76,7 +76,7 @@ Constructors and destructors are placed in the ```.init_array``` and ```.fini_ar
 0000000000003de8 l    d  .fini_array    0000000000000000              .fini_array
 ```
 
-These sections are arrays of functions that get executed during the initialisation and termination phases. To figure out what functions are in those arrays, a quick solution is to use ```readelf``` and do a hexdump of those sections:
+These sections are arrays of functions that get executed during the initialisation and termination phases. To figure out what functions were added by the compiler in those arrays, a quick solution is to use ```readelf``` and do a hexdump of those sections:
 
 ```bash
 # readelf --hex-dump=.init_array a.out 
@@ -95,7 +95,7 @@ The ELF file analysed here is a 64-bit application:
 a.out: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=671aae3f8892a9864d08ea9fa7af1af5ebe6503b, for GNU/Linux 3.2.0, not stripped
 ```
 
-That means those two arrays contain two functions each: the first one is the default one and the second one is the one we added manually. The address of the additional constructor - the ```premain()``` function, is ```0x0000000000001153```. The address of the additional destructor - the ```postmain()``` function, is ```0x000000000000114c```.
+That means those two arrays contain two functions each: the first one is a default one added by the compiler and the second is the one we added manually. The address of the additional constructor - the ```premain()``` function, is ```0x0000000000001153```. The address of the additional destructor - the ```postmain()``` function, is ```0x000000000000114c```.
 
 We can easily verify this in IDA Pro. Here's the ```.fini_array``` section:
 
