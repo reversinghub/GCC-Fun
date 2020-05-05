@@ -15,6 +15,7 @@ This repository contains interesting tricks, twists and cool features of GNU Com
 
 * Run code before the ```main()``` function
 * Run code after the ```main()``` function
+* __*WORK IN PROGRESS*__
 
 ### Pre-main/Post-main code
 
