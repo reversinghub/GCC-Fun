@@ -1,8 +1,18 @@
 # GCC-Fun
 
-Interesting tricks, twists and cool features of GNU Compiler Collection
+This repository contains interesting tricks, twists and cool features of GNU Compiler Collection
 
--- logo -- 
+```
+ ██████╗  ██████╗ ██████╗    ███████╗██╗   ██╗███╗   ██╗
+██╔════╝ ██╔════╝██╔════╝    ██╔════╝██║   ██║████╗  ██║
+██║  ███╗██║     ██║         █████╗  ██║   ██║██╔██╗ ██║
+██║   ██║██║     ██║         ██╔══╝  ██║   ██║██║╚██╗██║
+╚██████╔╝╚██████╗╚██████╗    ██║     ╚██████╔╝██║ ╚████║
+ ╚═════╝  ╚═════╝ ╚═════╝    ╚═╝      ╚═════╝ ╚═╝  ╚═══╝
+ ```
+
+* Run code before the ```main()``` function
+* Run code after the ```main()``` function
 
 ### Description
 
@@ -25,4 +35,5 @@ Interesting tricks, twists and cool features of GNU Compiler Collection
 
 #### GCC
 * [GCC Function attributes](https://gcc.gnu.org/onlinedocs/gcc-4.7.0/gcc/Function-Attributes.html)
+* [The .init and .fini Sections](http://ftp.math.utah.edu/u/ma/hohn/linux/misc/elf/node3.html)
 * [Abusing .CTORS and .DTORS for fun 'n profit](https://www.exploit-db.com/papers/13234)https://www.exploit-db.com/papers/13234
