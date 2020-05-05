@@ -24,12 +24,12 @@ Each ELF executable and shared object file contains a section table, describing 
 > The .init and .fini sections have a special purpose. If a function is placed in the .init section, the system will execute it before the main function. Also the functions placed in the .fini section will be executed by the system after the main function returns. This feature is utilized by compilers to implement global constructors and destructors in C++.
 
 
-* ```.init``` - This section holds executable instructions that contribute to the process initialization code. When a program starts, the system arranges will execute the code in this section __before the main program entry point__ (called main in C programs).
+* ```.init``` - This section holds executable instructions that contribute to the process initialization code. When a program starts, the system arranges will execute the code in this section __before the main program entry point__ (called ```main``` in C programs).
 * ```.fini``` - This section holds executable instructions that contribute to the process termination code. When a program exits normally, the system will execute the code in this section.
 
 #### How to create constructors/destructors
 
-Constructors and destructors are created using the ```constructor (priority)``` and ```destructor (priority)``` attributes. The priority number is optional and controls the order in which constructor and destructor functions are run. _A constructor with a smaller priority number runs before a constructor with a larger priority number; the opposite relationship holds for destructors_. 
+Constructors and destructors are created using the ```constructor (priority)``` and ```destructor (priority)``` attributes. The priority number is optional and controls the order in which constructor and destructor functions are run. _A constructor with a smaller priority number runs before a constructor with a larger priority number. The opposite relationship holds for destructors_. 
 
 **Note:** This logic order is important. If we have a constructor that allocates a resource and a destructor that deallocates the same resource, both functions typically have the same priority.
 
@@ -52,6 +52,16 @@ int main(int argc, char **argv) {
     printf("[*] In main()\n");
     return 0;
 }
+```
+
+Compile and test the code:
+
+```bash
+root@kali:~# gcc -Wall code.c 
+root@kali:~# ./a.out 
+[*] In premain()
+[*] In main()
+[*] In postmain()
 ```
 
 #### How to detect constructors/destructors
