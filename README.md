@@ -88,7 +88,7 @@ That means those two arrays contain two functions each: the first one is the def
 
 We can easily verify this in IDA Pro. Here's the ```.fini_array``` section:
 
-![.fini_array](img/fini2.png)
+![.fini_array](img/fini.png)
 
 And the ```postmain()``` function, located at the address we extracted from the ```readelf``` hexdump:
 
