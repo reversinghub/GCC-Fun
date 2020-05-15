@@ -180,6 +180,20 @@ in main()
 
 Similarly, IDA Pro doesn't tell us anything abouth those static initialisers. It's useful to have this in mind when performing static analysis with IDA Pro or any other tool!
 
+#### How to detect static/global initialisers
+
+As in the case with ```constructors```, the initialisers for static class members and for global variables are stored in the ```.init_array``` section. For example, this is the initialiser for the _global_ ```bar``` variable:
+
+![.init_array](img/init_array.png)
+
+Drilling down the code, through a few wrapper functions, we find the ```foo()``` function, used to initialise the ```bar``` variable:
+
+![foo() function](img/foo.png)
+
+To view the full call tree, we'll use [a port of qwingraph](https://github.com/WqyJh/qwingraph_qt5) which worked perfectly on Kali-rolling 2019.4:
+
+![call tree](img/wingraph.png)
+
 ### References
 
 * [gdbinit man page](http://man7.org/linux/man-pages/man5/gdbinit.5.html)
@@ -190,3 +204,4 @@ Similarly, IDA Pro doesn't tell us anything abouth those static initialisers. It
 * [GCC Function attributes](https://gcc.gnu.org/onlinedocs/gcc-4.7.0/gcc/Function-Attributes.html)
 * [The .init and .fini Sections](http://ftp.math.utah.edu/u/ma/hohn/linux/misc/elf/node3.html)
 * [Abusing .CTORS and .DTORS for fun 'n profit](https://www.exploit-db.com/papers/13234)
+* [qwingraph (wingraph written in qt4) ported to qt5.](https://github.com/WqyJh/qwingraph_qt5)
