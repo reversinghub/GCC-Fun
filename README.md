@@ -141,7 +141,11 @@ As in the previous scenario, when opening the output file in IDA Pro disassemble
 
 ### Static variables initialisers
 
-since you don't have full control prior to main, you don't have full control on the order in which the static blocks get initialized.
+The C programming language ISO standard [ISO/IEC 9899:1999](https://www.iso.org/standard/29237.html) specifies that:
+
+> _All objects with static storage duration shall be initialized (set to their initial values) before program startup._ The manner and timing of such initialization are otherwise unspecified.
+
+Let's have a look at another interesting piece of code:
 
 ```c++
 #include <stdio.h>
@@ -165,6 +169,16 @@ int main(int argc, char** argv) {
 }
 ```
 
+In this case we have a class with a static class member that gets initialised by running the ```bar()``` function. It's not surprising that the execution flow starts with ```bar()``` function. 
+
+```bash
+# g++ before-main-static.cpp 
+root@kali:~/code-play# ./a.out 
+in bar()
+in main()
+```
+
+Similarly, IDA Pro doesn't tell us anything abouth those static initialisers. It's useful to have this in mind when performing static analysis with IDA Pro or any other tool!
 
 ### References
 
