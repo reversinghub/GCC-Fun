@@ -13,11 +13,11 @@ This repository contains interesting tricks, twists and cool features of GNU Com
 
 ### Techniques
 
-* [Run code before/after the ```main()``` function using constructors/destructors](#pre--an-post-main-code)
-* Run code before the ```main()``` function using global variables
-* Run code before the ```main()``` function by initialising static variables
+* [Run code before/after the ```main()``` function using constructors/destructors](#pre-main-and-post-main-code)
+* [Run code before the ```main()``` function using global variables](#global-variables-initialisers)
+* [Run code before the ```main()``` function by initialising static variables](#static-variables-initialisers)
 
-### Pre- an post-main code
+### Pre-main and post-main code
 
 Each ELF executable and shared object file contains a section table, describing the sections inside the ELF object file. Two of those sections are specifically interesting because they offer opportunities to hide code that might not be immediately spotted during static analysis:
 
