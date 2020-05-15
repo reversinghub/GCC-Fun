@@ -1,6 +1,6 @@
 # GCC-Fun
 
-This repository contains interesting tricks, twists and cool features of GNU Compiler Collection
+This repository contains interesting tricks, twists and cool features of GNU Compiler Collection which could be used to execute code outside of the main function (before, after, or as a response to certain triggers).
 
 ```
  ██████╗  ██████╗ ██████╗    ███████╗██╗   ██╗███╗   ██╗
@@ -13,9 +13,9 @@ This repository contains interesting tricks, twists and cool features of GNU Com
 
 ### Techniques
 
-* Run code before the ```main()``` function
-* Run code after the ```main()``` function
-* __*WORK IN PROGRESS*__
+* [Run code before/after the ```main()``` function using constructors/destructors](#Pre-main/Post-main-code)
+* Run code before the ```main()``` function using global variables
+* Run code before the ```main()``` function by initialising static variables
 
 ### Pre-main/Post-main code
 
@@ -104,6 +104,66 @@ We can easily verify this in IDA Pro. Here's the ```.fini_array``` section:
 And the ```postmain()``` function, located at the address we extracted from the ```readelf``` hexdump:
 
 ![postmain](img/postmain.png)
+
+### Global variables initialisers
+
+The ```main()``` function is called *after initializing all the global variables*. Note that we're not in control of the order of the execution of the initialisers, but we can still execute actions and fly under the radar by initialising global variables. Consider the following code:
+
+```c++
+#include <stdio.h>
+
+int foo();
+
+int bar = foo();
+
+int foo() {
+    printf("in foo()\n");
+    return 42;
+}
+
+int main(int argc, char **argv) {
+    printf("in main()\n");
+    return 0;
+}
+```
+
+This initialises the global ```bar``` variable by calling the function ```foo()```. And it all happens before the execution of ```main()``` function and without any obvious clue about this. Let's compile it:
+
+```bash
+# g++ -Wall before-main-global.cpp 
+
+# ./a.out 
+in foo()
+in main()
+```
+
+As in the previous scenario, when opening the output file in IDA Pro disassembler for static analysis, the function that is first presented is ```main()```. No hints at all about ```foo()```.
+
+### Static variables initialisers
+
+since you don't have full control prior to main, you don't have full control on the order in which the static blocks get initialized.
+
+```c++
+#include <stdio.h>
+  
+class BeforeMain
+{
+    static int foo;
+
+};
+
+int bar() {
+    printf("in bar()\n");
+    return 0;
+}
+
+int BeforeMain::foo = bar();
+
+int main(int argc, char** argv) {
+    printf("in main()\n");
+    return 0;
+}
+```
 
 
 ### References
